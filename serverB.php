@@ -8,9 +8,7 @@
 			$content = curl_exec($ch);
 			curl_close($ch);
 
-			$cleanContent = getBetween($content,"<body>","</body>");
-
-			echo $cleanContent;
+			echo buildJSON($content);
 		} else {
 			echo "false";
 		}
@@ -28,5 +26,41 @@
 	        return $r[0];
 	    }
 	    return '';
+	}
+
+	function buildJSON($content){
+		$table = getBetween($content,"<tbody>","</tbody>");
+		$body = getBetween($content,"<body>","</body>");
+		$body = str_replace('<a href="/events/', '<a href="http://www.sismologia.cl/events/', $body);
+
+		$dom = new DomDocument;
+		$dom->loadHTML($table);
+		$xpath = new DomXPath($dom);
+		$dom->preserveWhiteSpace = false;
+
+		// collect header names
+		$headerNames = array();
+		foreach ($xpath->query('//th') as $node) {
+		    $headerNames[] = $node->nodeValue;
+		}
+
+		// collect data
+		$data = array();
+		foreach ($xpath->query('//tr') as $node) {
+		    $rowData = array();
+		    foreach ($xpath->query('td', $node) as $cell) {
+		        	$rowData[] = $cell->nodeValue;
+		    }
+
+		    if($rowData)
+		    	$data[] = array_combine($headerNames, $rowData);
+		}
+
+		return json_encode(
+			array(
+			    "json" => $data,
+			    "html" => $body,
+			)
+		);
 	}
 ?>

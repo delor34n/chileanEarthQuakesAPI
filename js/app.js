@@ -4,10 +4,10 @@ $(document).ready(function(){
 		url: 'serverB.php',
 		method: 'POST',
 		data: {url: serverB_URL},
+		dataType: 'json',
 		success: function(data){
-			var response = $(data);
+			var response = $(data.html);
 			$("#dirtInfo").html(response);
-			console.log($("#dirtInfo .impar"));
 		}
 	});
 });
