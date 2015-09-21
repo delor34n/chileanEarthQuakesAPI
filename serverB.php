@@ -2,13 +2,16 @@
 	if($_SERVER['REQUEST_METHOD'] === 'POST'){
 		if(isset($_POST["url"])){
 			
-			$ch = curl_init($_POST["url"]);
+			$url = $_POST["url"];
+			$base_url = "http://".parse_url($url)["host"];
+
+			$ch = curl_init($url);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
 			$content = curl_exec($ch);
 			curl_close($ch);
 
-			echo buildJSON($content);
+			echo buildJSON($content, $base_url);
 		} else {
 			echo "false";
 		}
@@ -31,10 +34,10 @@
 	/*
 	* @author: http://github.com/delor34n
 	*/
-	function buildJSON($content){
+	function buildJSON($content, $url){
 		$table = getBetween($content,"<tbody>","</tbody>");
 		$body = getBetween($content,"<body>","</body>");
-		$body = str_replace('<a href="/events/', '<a href="http://www.sismologia.cl/events/', $body);
+		$body = str_replace('<a href="/events/', '<a href="'.$url.'/events/', $body);
 
 		$dom = new DomDocument;
 		$dom->loadHTML($table);
