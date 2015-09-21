@@ -7,8 +7,8 @@
 		<title>Latest sismos in Chile</title>
 	</head>
 	<body>
-		<iframe id="externalServer" name="externalServer" style="display: none;" src="http://www.sismologia.cl/links/tabla.html"></iframe>
 		<div id="cleanInfo"></div>
+		<div id="dirtInfo"></div>
 
 		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="js/app.js"></script>
