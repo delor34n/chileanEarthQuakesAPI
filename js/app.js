@@ -6,8 +6,8 @@ $(document).ready(function(){
 		data: {url: serverB_URL},
 		dataType: 'json',
 		success: function(data){
-			var response = $(data.html);
-			$("#dirtInfo").html(response);
+			$("#dirtInfo").html($(data.html));
+			$("#cleanInfo").html(JSON.stringify(data.json));
 		}
 	});
 });

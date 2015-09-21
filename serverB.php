@@ -28,6 +28,9 @@
 	    return '';
 	}
 
+	/*
+	* @author: http://github.com/delor34n
+	*/
 	function buildJSON($content){
 		$table = getBetween($content,"<tbody>","</tbody>");
 		$body = getBetween($content,"<body>","</body>");
